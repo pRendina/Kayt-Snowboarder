@@ -12,6 +12,7 @@ private:
     string cogn;
     int x;
     int y;
+    int distanza;
 
 public:
     partecipanti(int ordine) {
@@ -19,6 +20,7 @@ public:
         this->matricola = genMatricola(ordine);
         x = 0;
         y = 0;
+        this->distanza = calcola_distanza();
     }
 
     string genNome() {
@@ -53,13 +55,64 @@ public:
         return matricola;
     }
 
+    int getX(){
+        return x;
+    }
+
+    int getY(){
+        return y;
+    }
+
+    void posizioni(){
+        x = getX() + rand()%4;
+        y = getY() + rand()%4;
+    }
+
+    void crea_piano(int x,int y){
+        string matrice[100][100];
+
+        for(int i=0; i<10; i++){
+            for(int k=0; k<10; k++){
+                if(i==y && k==x)
+                    matrice[i][k] = "0";
+                else
+                    matrice[i][k] = "1";
+            }
+        }
+
+        for(int i=0; i<10; i++){
+            for(int k=0; k<10; k++){
+                cout<<matrice[i][k];
+            }
+            cout<<endl;
+        }
+    }
+
+    int calcola_distanza(){
+        int distanza = 0;
+        int xprec,yprec;
+        for(int i = 0; i<5; i++){
+            xprec = getX();
+            yprec = getY();
+            posizioni();
+            crea_piano(getX(),getY());
+            distanza += sqrt(pow((getX()-xprec),2) + pow((getY()-yprec),2));
+        }
+        return distanza;
+    }
+
+    int getDistanza(){
+        return distanza;
+    }
 };
+
 
 
 int main() {
     srand(time(NULL));
     partecipanti* guest = new partecipanti(1);
     cout << guest->getMatricola()<<endl;
-
+    cout<<guest->getDistanza();
     return 0;
 }
+
