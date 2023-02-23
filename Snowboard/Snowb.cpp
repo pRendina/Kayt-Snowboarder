@@ -4,6 +4,9 @@
 #include <string>
 #include <cctype>
 #include <math.h>
+
+#define  N  6
+
 using namespace std;
 
 class partecipanti {
@@ -37,6 +40,7 @@ public:
                 i++;
             }
         }
+        fin.close();
         return s;
     }
 
@@ -55,6 +59,11 @@ public:
         return matricola;
     }
 
+    string getNome(){
+        return cogn;
+    }
+
+
     int getX(){
         return x;
     }
@@ -64,8 +73,8 @@ public:
     }
 
     void posizioni(){
-        x = getX() + rand()%4;
-        y = getY() + rand()%4;
+        x = getX() + rand()%20;
+        y = getY() + rand()%20;
     }
 
     void crea_piano(int x,int y){
@@ -95,7 +104,7 @@ public:
             xprec = getX();
             yprec = getY();
             posizioni();
-            crea_piano(getX(),getY());
+            //crea_piano(getX(),getY());
             distanza += sqrt(pow((getX()-xprec),2) + pow((getY()-yprec),2));
         }
         return distanza;
@@ -106,13 +115,36 @@ public:
     }
 };
 
+void scriviFile(partecipanti* guest){
+    fstream fout("concorrenti.txt", ios::app);
+    fout<<guest->getNome()<<", "<<guest->getMatricola()<<", "<<guest->getDistanza()<<endl;
+    fout.close();
+}
 
+void whoWin(){
+
+}
+
+void printStat(partecipanti* guest[]){
+
+
+    for(int i=0; i<N; i++){
+        cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<endl<<endl;
+        cout<<"\tUltime Coordinate: ("<<guest[i]->getX()<<", "<<guest[i]->getY()<<") \tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
+    }
+}
 
 int main() {
     srand(time(NULL));
-    partecipanti* guest = new partecipanti(1);
-    cout << guest->getMatricola()<<endl;
-    cout<<guest->getDistanza();
+    partecipanti* guest[N];
+
+    for(int i=0; i<N; i++){
+        guest[i] = new partecipanti(i+1);
+        scriviFile(guest[i]);
+    }
+
+    printStat(guest);
+
     return 0;
 }
 
