@@ -32,7 +32,7 @@ public:
         if (!fin)
             cout << "Errore\n";
         else {
-            int n_cogn = rand() % 20;
+            int n_cogn = rand() % 19;
             int i = 0;
 
             while (i != n_cogn) {
@@ -62,7 +62,6 @@ public:
     string getNome(){
         return cogn;
     }
-
 
     int getX(){
         return x;
@@ -121,30 +120,55 @@ void scriviFile(partecipanti* guest){
     fout.close();
 }
 
-void whoWin(){
+void whoWin(partecipanti* guest[]) {
+    cout << "CLASSIFICA\n\n";
+     for (int i = 0; i < N - 1; i++) {
+        for (int j = 0; j < N - i - 1; j++) {
+            if (guest[j]->getDistanza() < guest[j + 1]->getDistanza()) {
+                partecipanti* temp = guest[j];
+                guest[j] = guest[j + 1];
+                guest[j + 1] = temp;
+            }
+        }
+    }
+
+    cout << "\t " << 1 << ") " << guest[0]->getMatricola() << " " << guest[0]->getNome() << "     Distanza: " << guest[0]->getDistanza() << endl <<endl;
+    cout << "\t\t " << 2 << ") " << guest[1]->getMatricola() << " " << guest[1]->getNome() << "     Distanza: " << guest[1]->getDistanza() << endl <<endl;
+    cout << "\t\t\t" << 3 << ") " << guest[2]->getMatricola() << " " << guest[2]->getNome() << "      Distanza: " << guest[2]->getDistanza() << endl <<endl;
+
+    cout<<"RESTO CLASSIFICA\n\n";
+    for (int i = 3; i < N; i++)
+        cout << i + 1 << ") " << guest[i]->getMatricola() << " " << guest[i]->getNome() << "     Distanza: " << guest[i]->getDistanza() << endl;
 
 }
 
 void printStat(partecipanti* guest[]){
-
-
     for(int i=0; i<N; i++){
         cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<endl<<endl;
         cout<<"\tUltime Coordinate: ("<<guest[i]->getX()<<", "<<guest[i]->getY()<<") \tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
     }
 }
 
+void clearFile(){
+    fstream fout("concorrenti.txt", ios::out);
+
+    fout<<"";
+
+    fout.close();
+}
+
 int main() {
     srand(time(NULL));
     partecipanti* guest[N];
 
+    clearFile();
     for(int i=0; i<N; i++){
         guest[i] = new partecipanti(i+1);
         scriviFile(guest[i]);
     }
 
     printStat(guest);
-
+    whoWin(guest);
     return 0;
 }
 
