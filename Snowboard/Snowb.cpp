@@ -157,18 +157,43 @@ void clearFile(){
     fout.close();
 }
 
-int main() {
-    srand(time(NULL));
+void menu(){
+    int scelta;
     partecipanti* guest[N];
 
-    clearFile();
-    for(int i=0; i<N; i++){
-        guest[i] = new partecipanti(i+1);
-        scriviFile(guest[i]);
-    }
+    do{
+        cout<<"\n\nSIMULATORE DI UNA COMPETIZIONE DI KAYT SNOWBOARDING\n\n"
+        <<"1] Avvia simulazione\n"
+        <<"2] Mostra podio\n"
+        <<"3] ESCI\n>>";
 
-    printStat(guest);
-    whoWin(guest);
+        cin>>scelta;
+
+        switch(scelta){
+            case 1: system("cls");
+                    clearFile();
+                    for(int i=0; i<N; i++){
+                        guest[i] = new partecipanti(i+1);
+                        scriviFile(guest[i]);
+                    }
+                    printStat(guest);
+                    break;
+
+            case 2: whoWin(guest);
+                    break;
+
+        }
+    }while(scelta!=3);
+
+
+
+}
+
+int main() {
+    srand(time(NULL));
+
+    menu();
+
     return 0;
 }
 
