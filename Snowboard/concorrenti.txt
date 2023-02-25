@@ -1,6 +1,6 @@
-Giordano , GO01, 53
-Gallo , GL02, 52
-Lammers, LM03, 74
-Ricci , RC04, 73
-Rendina, RN05, 63
-Rizzo , RZ06, 42
+Colombo, CL01, 93
+Lammers, LM02, 83
+Lops, LP03, 85
+Gallo , GL04, 88
+Vessicchio, VS05, 87
+Notarangelo, NT06, 79
