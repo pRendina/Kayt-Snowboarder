@@ -143,129 +143,148 @@ public:
     }
 };
 
-/*!
+
+
+/*! \class competizione
+    \brief Classe per la creazione di una competizione
+*/
+class competizione{
+
+private:
+    partecipanti* guest[N];  //! \var guest[N] \brief Vettore di partecipanti definito dalla costante N
+
+public:
+
+    /*! \fn partecipanti
+        \brief Costruttore
+    */
+    competizione(){
+        menu(guest);
+    }
+    /*!
     \brief Memorizza sul file "concorrenti.txt" matricola, cognome e tutte le coordinate
     \param[in] guest Partecipante passato singolarmente all'interno di un ciclo nel main
-*/
-void scriviFile(partecipanti* guest){
+    */
+    void scriviFile(partecipanti* guest){
 
-    fstream fout("concorrenti.txt", ios::app);
-    fout<<guest->getNome()<<", "<<guest->getMatricola()<<", ";
-    for(int i=0; i<30; i++)
-        fout<<guest->getX(i)<<" "<<guest->getY(i)<<", ";
-    fout<<endl;
-    fout.close();
-}
+        fstream fout("concorrenti.txt", ios::app);
+        fout<<guest->getNome()<<", "<<guest->getMatricola()<<", ";
+        for(int i=0; i<30; i++)
+            fout<<guest->getX(i)<<" "<<guest->getY(i)<<", ";
+        fout<<endl;
+        fout.close();
+    }
 
-/*!
-    \brief Mostra a schermo la classifica dei vincitori
-    \param[in] guest[] Vettore dei partecipanti
-*/
-void whoWin(partecipanti* guest[]) {
-    cout << "CLASSIFICA\n\n";
-     for (int i = 0; i < N - 1; i++) {
-        for (int j = 0; j < N - i - 1; j++) {
-            if (guest[j]->getDistanza() < guest[j + 1]->getDistanza()) {
-                partecipanti* temp = guest[j];
-                guest[j] = guest[j + 1];
-                guest[j + 1] = temp;
+    /*!
+        \brief Mostra a schermo la classifica dei vincitori
+        \param[in] guest[] Vettore dei partecipanti
+    */
+    void whoWin(partecipanti* guest[]) {
+        cout << "CLASSIFICA\n\n";
+         for (int i = 0; i < N - 1; i++) {
+            for (int j = 0; j < N - i - 1; j++) {
+                if (guest[j]->getDistanza() < guest[j + 1]->getDistanza()) {
+                    partecipanti* temp = guest[j];
+                    guest[j] = guest[j + 1];
+                    guest[j + 1] = temp;
+                }
             }
         }
+
+        cout << "\t " << 1 << ") " << guest[0]->getMatricola() << " " << guest[0]->getNome() << "     Distanza: " << guest[0]->getDistanza() << "km" << endl <<endl;
+        cout << "\t\t " << 2 << ") " << guest[1]->getMatricola() << " " << guest[1]->getNome() << "     Distanza: " << guest[1]->getDistanza() << "km" << endl <<endl;
+        cout << "\t\t\t" << 3 << ") " << guest[2]->getMatricola() << " " << guest[2]->getNome() << "      Distanza: " << guest[2]->getDistanza() << "km" << endl <<endl;
+
+        cout<<"RESTO CLASSIFICA\n\n";
+        for (int i = 3; i < N; i++)
+            cout << i + 1 << ") " << guest[i]->getMatricola() << " " << guest[i]->getNome() << "     Distanza: " << guest[i]->getDistanza() << "km" << endl;
+
     }
 
-    cout << "\t " << 1 << ") " << guest[0]->getMatricola() << " " << guest[0]->getNome() << "     Distanza: " << guest[0]->getDistanza() << "km" << endl <<endl;
-    cout << "\t\t " << 2 << ") " << guest[1]->getMatricola() << " " << guest[1]->getNome() << "     Distanza: " << guest[1]->getDistanza() << "km" << endl <<endl;
-    cout << "\t\t\t" << 3 << ") " << guest[2]->getMatricola() << " " << guest[2]->getNome() << "      Distanza: " << guest[2]->getDistanza() << "km" << endl <<endl;
-
-    cout<<"RESTO CLASSIFICA\n\n";
-    for (int i = 3; i < N; i++)
-        cout << i + 1 << ") " << guest[i]->getMatricola() << " " << guest[i]->getNome() << "     Distanza: " << guest[i]->getDistanza() << "km" << endl;
-
-}
-
-/*!
-    \brief Stampa a schermo le matricola, cognome, ultime coordinate e distanza percorsa di ogni giocatore
-    \param[in] guest[] Vettore dei partecipanti
-*/
-void printStat(partecipanti* guest[]){
-    for(int i=0; i<N; i++){
-        cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<endl<<endl;
-        cout<<"\tUltime Coordinate: ("<<guest[i]->getX(29)<<", "<<guest[i]->getY(29)<<") \tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
-    }
-}
-
-/*!
-    \brief stampa a schermo le matricola, cognome, tutte le coordinate e distanza percorsa di ogni giocatore
-    \param[in] guest[] Vettore dei partecipanti
-*/
-void moreStat(partecipanti* guest[]){
-    system("cls");
-    cout<<"STATISTICHE SPECIFICHE\n\n";
-    for(int i=0; i<N; i++){
-        cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<"\n\nCoordinate durante la gara\n";
-        for(int k=0; k<30; k++){
-            if(k<9)
-                cout<<"23:0"<<k+1<<"\t("<<guest[i]->getX(k)<<", "<<guest[i]->getY(k)<<")\n";
-            else
-                cout<<"23:"<<k+1<<"\t("<<guest[i]->getX(k)<<", "<<guest[i]->getY(k)<<")\n";
+    /*!
+        \brief Stampa a schermo le matricola, cognome, ultime coordinate e distanza percorsa di ogni giocatore
+        \param[in] guest[] Vettore dei partecipanti
+    */
+    void printStat(partecipanti* guest[]){
+        for(int i=0; i<N; i++){
+            cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<endl<<endl;
+            cout<<"\tUltime Coordinate: ("<<guest[i]->getX(29)<<", "<<guest[i]->getY(29)<<") \tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
         }
-
-        cout<<"\n\tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
     }
-}
 
-/*! \fn clearFile
-    \brief Pulisce il file
-*/
-void clearFile(){
-    fstream fout("concorrenti.txt", ios::out);
+    /*!
+        \brief stampa a schermo le matricola, cognome, tutte le coordinate e distanza percorsa di ogni giocatore
+        \param[in] guest[] Vettore dei partecipanti
+    */
+    void moreStat(partecipanti* guest[]){
+        system("cls");
+        cout<<"STATISTICHE SPECIFICHE\n\n";
+        for(int i=0; i<N; i++){
+            cout<<"PARTECIPANTE "<<i+1<<": "<<guest[i]->getMatricola()<<" "<<guest[i]->getNome()<<"\n\nCoordinate durante la gara\n";
+            for(int k=0; k<30; k++){
+                if(k<9)
+                    cout<<"23:0"<<k+1<<"\t("<<guest[i]->getX(k)<<", "<<guest[i]->getY(k)<<")\n";
+                else
+                    cout<<"23:"<<k+1<<"\t("<<guest[i]->getX(k)<<", "<<guest[i]->getY(k)<<")\n";
+            }
 
-    fout<<"";
-
-    fout.close();
-}
-
-/*! \fn menu
-    \brief Stampa su schermo il menu e attraverso la scelta richiama le funzioni appropriate
-*/
-void menu(){
-    int scelta;
-    partecipanti* guest[N];
-
-    do{
-        cout<<"\n\nSIMULATORE DI UNA COMPETIZIONE DI KITE SNOWBOARDING\n\n"
-        <<"1] Avvia simulazione\n"
-        <<"2] Mostra specifiche dei concorrenti\n"
-        <<"3] Mostra podio\n"
-        <<"4] ESCI\n>>";
-
-        cin>>scelta;
-
-        switch(scelta){
-            case 1: system("cls");
-                    clearFile();
-                    for(int i=0; i<N; i++){
-                        guest[i] = new partecipanti(i+1);
-                        scriviFile(guest[i]);
-                    }
-                    printStat(guest);
-                    break;
-
-            case 2: moreStat(guest);
-                    break;
-
-            case 3: whoWin(guest);
-                    break;
-
+            cout<<"\n\tDistanza percorsa: "<<guest[i]->getDistanza()<<"km\n\n\n";
         }
-    }while(scelta!=4);
-}
+    }
+
+    /*! \fn clearFile
+        \brief Pulisce il file
+    */
+    void clearFile(){
+        fstream fout("concorrenti.txt", ios::out);
+
+        fout<<"";
+
+        fout.close();
+    }
+
+    /*! \fn menu
+        \brief Stampa su schermo il menu e attraverso la scelta richiama le funzioni appropriate
+    */
+    void menu(partecipanti* guest[]){
+        int scelta;
+
+        do{
+            cout<<"\n\nSIMULATORE DI UNA COMPETIZIONE DI KITE SNOWBOARDING\n\n"
+            <<"1] Avvia simulazione\n"
+            <<"2] Mostra specifiche dei concorrenti\n"
+            <<"3] Mostra podio\n"
+            <<"4] ESCI\n>>";
+
+            cin>>scelta;
+
+            switch(scelta){
+                case 1: system("cls");
+                        clearFile();
+                        for(int i=0; i<N; i++){
+                            guest[i] = new partecipanti(i+1);
+                            scriviFile(guest[i]);
+                        }
+                        printStat(guest);
+                        break;
+
+                case 2: moreStat(guest);
+                        break;
+
+                case 3: whoWin(guest);
+                        break;
+
+            }
+        }while(scelta!=4);
+    }
+
+};
+
 
 //! \brief Software che simula una gara di kite snowboarding
 int main() {
     srand(time(NULL));
-
-    menu();
+    competizione* gara = new competizione();
 
     return 0;
 }
